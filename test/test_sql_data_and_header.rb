@@ -1,30 +1,49 @@
 # coding: utf-8
+
 require 'csv'
 require 'json'
 
-require "#{File.dirname(__FILE__)}/../lib/sql_server_raw_file"
+require(File.expand_path('../../lib/sql_server_raw_file.rb',__FILE__))
 
-fixtures_path = "#{File.dirname(__FILE__)}/../fixtures/"
-raw_path = %w(sql09.raw sql10.raw sql11.raw)
+fixtures_path = File.expand_path('../../fixtures',__FILE__)+'/'
+raw_file_name = %w(sql09.raw sql10.raw sql11.raw)
 
 # current_fixture_index = 0
 current_fixture_index = File.read(fixtures_path+'/current_sql_index').to_i
+raw_path = fixtures_path+raw_file_name[current_fixture_index]
 
-# show header of raw file and convert it hash and put it json-file
-File.open(fixtures_path+raw_path[current_fixture_index]) { |raw_io|
+# show version of raw file
+# signature: new(io)
+# @param io [IO] IO-stream
+# @return [SqlServerDts::RawFile]
+File.open(raw_path) { |raw_io|
   raw_obj = SqlServerDts::RawFile.new(raw_io)
   puts "RAW VERSION: #{raw_obj.version}"
-  puts '=== BEGIN HEADER ==='
-  puts raw_obj.header
-  File.open("#{fixtures_path+File.basename(raw_io.path, '.*')}_header.json",'wt') { |json_io|
-    header_json = JSON.pretty_generate(raw_obj.header)
-    json_io.write(header_json)
-  }
-  puts '=== END HEADER ==='
 }
 
-# show data of raw file in rows table and convert it hash and put it csv-file
-SqlServerDts::RawFile.new(fixtures_path+raw_path[current_fixture_index]) { |raw_obj, raw_io|
+# show header of raw file and convert it into hash and save it as json-file
+# signature: new(path)
+# @param path [String] Path to raw file
+# @return [SqlServerDts::RawFile]
+raw_obj = SqlServerDts::RawFile.new(raw_path)
+puts '=== BEGIN HEADER ==='
+puts raw_obj.header
+File.open("#{fixtures_path+File.basename(raw_path, '.*')}_header.json",'wt') { |json_io|
+  header_json = JSON.pretty_generate(raw_obj.header)
+  json_io.write(header_json)
+}
+puts '=== END HEADER ==='
+# get current position into inner IO-stream object for further using
+init_pos = raw_obj.pos
+# need to close inner IO-stream object
+raw_obj.close
+#exit
+# show data of raw file in rows table and convert it into hash and save it as csv-file
+# signature: new(path,init_pos)
+# @param path [String] Path to raw file
+# @param init_pos [String] Init pos in raw file where data rows from
+# @return [ [SqlServerDts::RawFile,IO] ] block_given? == true
+SqlServerDts::RawFile.new(raw_path,init_pos) { |raw_obj, raw_io|
   puts '=== BEGIN DATA ==='
   i=0
   fields_arr = []

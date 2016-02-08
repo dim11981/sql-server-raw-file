@@ -1,6 +1,6 @@
 # sql-server-raw-file: sql-server-raw-file lib
 
-Converts SQL Server Dts Raw File source to hash.
+Converts SQL Server Integration Services Raw File source to hash.
 
 ### Installation and usage
 
@@ -42,6 +42,8 @@ SqlServerDts::RawFile.new('/path/to/sql/raw/file') { |raw_obj, raw_io|
   # ...
 }
 # end example 2
+
+3) more detailed examples in ./test/test_sql_data_and_header.rb
 ```
 
 ### Troubleshooting

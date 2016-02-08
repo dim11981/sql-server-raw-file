@@ -1,6 +1,9 @@
+# coding: utf-8
+
 require 'rubygems'
 
-require "#{File.dirname(__FILE__)}/lib/sql_server_dts_ns"
+#require "#{File.dirname(__FILE__)}/lib/sql_server_dts_ns"
+require(File.expand_path('../lib/sql_server_dts_ns.rb',__FILE__))
 
 Gem::Specification.new do |s|
   s.name        = 'sql-server-raw-file'
