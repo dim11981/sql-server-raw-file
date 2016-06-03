@@ -1,6 +1,6 @@
 # coding: utf-8
 
-require(File.expand_path('../sql_server_dts_ns.rb',__FILE__))
+require(File.expand_path('../../lib/version.rb',__FILE__))
 
 # SqlServerDts::RawFile class
 class SqlServerDts::RawFile
@@ -27,8 +27,8 @@ class SqlServerDts::RawFile
   DEFAULT_ENCODING = 'utf-8'
 
   # supported versions of Raw File:
-  #   00.90.00.00 => 9 (SQL Server: 9/10)
-  #   00.10.01.00 => 10 (SQL Server: 11)
+  #   00.90.00.00 => 9 (SQL Server: 9,10)
+  #   00.10.01.00 => 10 (SQL Server: 11,12)
   SUPPORTED_RAW_VERSIONS = %w(00.10.01.00 00.90.00.00)
 
   # initialization

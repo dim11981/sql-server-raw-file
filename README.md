@@ -1,13 +1,19 @@
 # sql-server-raw-file: sql-server-raw-file lib
 
-Converts SQL Server Integration Services Raw File source to hash.
+Converts SQL Server Integration Services raw file to hash objects.
+Supports raw files generated from SQL Server 9, 10, 11, 12.
 
 ### Installation and usage
 
-```
-1) gem install sql-server-raw-file
-2) usage (examples):
+Install:
 
+```
+gem install sql-server-raw-file
+```
+
+Usage:
+
+```ruby
 # begin example 1
 require 'sql_server_raw_file'
 
@@ -42,11 +48,10 @@ SqlServerDts::RawFile.new('/path/to/sql/raw/file') { |raw_obj, raw_io|
   # ...
 }
 # end example 2
-
-3) more detailed examples in ./test/test_sql_data_and_header.rb
 ```
+
+More detailed examples in ./fixtures/fixture_sql_data_and_header.rb
 
 ### Troubleshooting
 
-mailto:d.a.mullo1981@gmail.com
-subject: sql-server-raw-file issue
+Visit to [sql-server-raw-file homepage](https://github.com/dim11981/sql-server-raw-file)
